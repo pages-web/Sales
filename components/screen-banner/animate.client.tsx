@@ -1,8 +1,8 @@
-'use client';
-import { cn } from '@/lib/utils';
-import { motion } from 'framer-motion';
-import Image from 'next/image';
-import { useState } from 'react';
+"use client";
+import { cn } from "@/lib/utils";
+import { motion } from "framer-motion";
+import Image from "next/image";
+import { useState } from "react";
 
 const WrapperImage = ({ src }: { src?: string }) => {
   const [loading, setLoading] = useState(true);
@@ -14,7 +14,7 @@ const WrapperImage = ({ src }: { src?: string }) => {
       transition={{ spring: 0, duration: 0.5 }}
     >
       <Image
-        src="https://celimax.us/cdn/shop/files/0H6A5912-small_1728x.jpg?v=1667194202"
+        src={`https://bud.app.erxes.io/api/read-file?key=` + src || ""}
         fill
         className="object-cover object-center w-full h-full"
         alt=""
@@ -32,7 +32,7 @@ export const TextUp = ({
   <motion.div
     initial={{ translateY: 32, opacity: 0 }}
     animate={{ translateY: 0, opacity: 1 }}
-    className={cn('translate-y-8 opacity-0', className)}
+    className={cn("translate-y-8 opacity-0", className)}
     transition={{ duration: 0.4 }}
   >
     {children}

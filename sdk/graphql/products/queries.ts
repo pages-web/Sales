@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client';
+import { gql } from "@apollo/client";
 
 const commonFields = `
   _id
@@ -178,6 +178,6 @@ const queries = {
   productSimilarities,
   productDetail,
   productsMeta,
-  productReview
+  productReview,
 };
 export default queries;

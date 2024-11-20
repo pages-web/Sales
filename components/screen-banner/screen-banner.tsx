@@ -1,11 +1,11 @@
-import { getKbArticlesByCode } from '@/sdk/queries/kb';
-import { Carousel, CarouselContent, CarouselItem } from '../ui/carousel';
-import Link from 'next/link';
+import { getKbArticlesByCode } from "@/sdk/queries/kb";
+import { Carousel, CarouselContent, CarouselItem } from "../ui/carousel";
+import Link from "next/link";
 
-import WrapperImage, { TextUp } from './animate.client';
+import WrapperImage, { TextUp } from "./animate.client";
 
 const ScreenBanner = async () => {
-  const { articles } = await getKbArticlesByCode('screen-banner');
+  const { articles } = await getKbArticlesByCode("screen-banner");
   if (!articles.length) return null;
 
   return (
@@ -17,7 +17,7 @@ const ScreenBanner = async () => {
               href=""
               className="relative h-svh w-full flex flex-col bg-neutral-100"
             >
-              <WrapperImage src={article.image?.url || ''} />
+              <WrapperImage src={article.image?.url || ""} />
               <div className="container flex-auto grid md:grid-cols-2 relative">
                 <div className="flex flex-col">
                   <div className="flex-auto"></div>
