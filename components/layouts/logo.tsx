@@ -1,6 +1,6 @@
-import Link from 'next/link';
-import Image from '@/components/ui/image';
-import { getConfig } from '@/sdk/queries/auth';
+import Link from "next/link";
+import Image from "@/components/ui/image";
+import { getConfig } from "@/sdk/queries/auth";
 
 const Logo = async () => {
   const { config } = await getConfig();
@@ -8,7 +8,7 @@ const Logo = async () => {
   return (
     <Link href="/" aria-label="SF Homepage">
       <Image
-        src={'/images/logo.avif'}
+        src={logo}
         height={26}
         width={100}
         quality={100}
