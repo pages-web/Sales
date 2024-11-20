@@ -21,7 +21,7 @@ const ScreenBanner = async () => {
               <div className="container flex-auto grid md:grid-cols-2 relative">
                 <div className="flex flex-col">
                   <div className="flex-auto"></div>
-                  <TextUp className="h-1/2 md:h-1/3 md:px-4">
+                  <TextUp className="h-1/2 md:h-1/3 md:px-2">
                     <div
                       className="uppercase text-lg font-semibold mb-2"
                       dangerouslySetInnerHTML={{ __html: article.content }}
