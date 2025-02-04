@@ -1,13 +1,10 @@
-import { Button } from '../ui/button';
-import { getBranchDetail } from '@/sdk/queries/auth';
-import Link, { type LinkProps } from 'next/link';
-import { cn } from '@/lib/utils';
-import { MailIcon, MapPinIcon, MoveRight, PhoneCallIcon } from 'lucide-react';
-import ErxesLogo from './erxes-logo';
-import { icons } from './icons';
-import Image from '@/components/ui/image';
-import { TypewriterEffect } from '../ui/typewriter';
-import { TextUp } from './animate.client';
+import { Button } from "../ui/button";
+import { getBranchDetail } from "@/sdk/queries/auth";
+import Link, { type LinkProps } from "next/link";
+import { cn } from "@/lib/utils";
+import { MailIcon, MapPinIcon, PhoneCallIcon } from "lucide-react";
+import ErxesLogo from "./erxes-logo";
+import { icons } from "./icons";
 
 const Footer = async () => {
   const { branchDetail, name } = await getBranchDetail();
@@ -15,42 +12,6 @@ const Footer = async () => {
 
   return (
     <footer className="pt-12">
-      <div className="relative h-96 overflow-hidden">
-        <Image
-          src="/images/footer.jpeg"
-          className="w-full absolute inset-0 h-full object-cover object-left"
-          width={1568}
-          height={320}
-        />
-        <div className="container grid grid-cols-3 relative h-full">
-          <div className="hidden md:block" />
-          <TextUp className="col-span-3 md:col-span-2 flex flex-col justify-center">
-            <TypewriterEffect
-              words={[
-                { text: 'CELIMAX' },
-                { text: '-' },
-                { text: 'Монгол' },
-                { text: 'дахь' },
-                { text: 'албан' },
-                { text: 'ёсны' },
-                { text: 'дэлгүүр' }
-              ]}
-            />
-            <div className="text-center mt-5">
-              <Button
-                variant="outline"
-                className="bg-transparent text-primary-foreground"
-                asChild
-              >
-                <Link href="/category">
-                  Бүх бүтээгдэхүүн
-                  <MoveRight className="h-6 w-6 ml-2" strokeWidth={1.5} />
-                </Link>
-              </Button>
-            </div>
-          </TextUp>
-        </div>
-      </div>
       {!!branchDetail && (
         <div>
           <div className="container py-6 grid md:grid-cols-4">
@@ -65,23 +26,23 @@ const Footer = async () => {
             </Col>
             <Col title="Холбоо барих">
               {!!email && (
-                <FooterLink href={'mailto: ' + email}>
+                <FooterLink href={"mailto: " + email}>
                   <MailIcon className="h-5 w-5 mr-2" />
                   {email}
                 </FooterLink>
               )}
               {!!phoneNumber && (
-                <FooterLink href={'tel: ' + phoneNumber}>
+                <FooterLink href={"tel: " + phoneNumber}>
                   <PhoneCallIcon className="h-5 w-5 mr-2" />
-                  {(phoneNumber || '').toString()}
+                  {(phoneNumber || "").toString()}
                 </FooterLink>
               )}
               <Col title="Биднийг дагаарай">
                 <div className="flex items-center pb-2 gap-1 -ml-2">
-                  {Object.keys(links || {}).map(link =>
+                  {Object.keys(links || {}).map((link) =>
                     !!links[link] ? (
                       <SocialLink
-                        href={(links || {})[link] || ''}
+                        href={(links || {})[link] || ""}
                         icon={link}
                         key={link}
                       >
@@ -97,12 +58,12 @@ const Footer = async () => {
                 href={`https://www.google.com/maps/@${coordinate?.longitude},${coordinate?.latitude}`}
                 target="_blank"
                 className={cn(
-                  'items-start -mt-1 h-auto whitespace-normal',
-                  (address || '').length < 20 && 'items-center'
+                  "items-start -mt-1 h-auto whitespace-normal",
+                  (address || "").length < 20 && "items-center"
                 )}
               >
                 <MapPinIcon className="flex-none h-5 w-5 mt-1" />
-                <span className="ml-2 text-wrap">{address || ''}</span>
+                <span className="ml-2 text-wrap">{address || ""}</span>
               </FooterLink>
             </Col>
           </div>
@@ -133,7 +94,7 @@ const Footer = async () => {
 
 const Col = ({
   title,
-  children
+  children,
 }: React.PropsWithChildren & { title: string }) => {
   return (
     <div className="">
@@ -150,7 +111,7 @@ const FooterLink = (
   <Button
     asChild
     className={cn(
-      'px-0 h-8 flex justify-start text-neutral-600 hover:text-primary font-normal',
+      "px-0 h-8 flex justify-start text-neutral-600 hover:text-primary font-normal",
       props.className
     )}
     variant="link"
@@ -165,7 +126,7 @@ const SocialLink = (
 ) => (
   <Button
     asChild
-    className={cn('text-xl shadow-none', props.className)}
+    className={cn("text-xl shadow-none", props.className)}
     size="icon"
     variant="ghost"
   >

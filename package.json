@@ -29,6 +29,7 @@
     "@react-google-maps/api": "^2.19.2",
     "@sentry/nextjs": "^8",
     "@vercel/speed-insights": "^1.0.10",
+    "antd": "^5.23.3",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
     "date-fns": "^3.3.1",

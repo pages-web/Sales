@@ -1,14 +1,14 @@
-'use client';
+"use client";
 
-import { PlusIcon, ShoppingCartIcon } from 'lucide-react';
-import { Button } from '../ui/button';
-import { useAtom, useSetAtom } from 'jotai';
-import { addToCartAtom } from '@/store/cart.store';
-import { IProduct } from '@/types/product.types';
-import { toast } from 'sonner';
-import { cartSheetAtom } from '@/store';
-import { useEffect, useState } from 'react';
-import { usePossibleQuantity } from '@/sdk/hooks/cart';
+import { PlusIcon, ShoppingCartIcon } from "lucide-react";
+import { Button } from "../ui/button";
+import { useAtom, useSetAtom } from "jotai";
+import { addToCartAtom } from "@/store/cart.store";
+import { IProduct } from "@/types/product.types";
+import { toast } from "sonner";
+import { cartSheetAtom } from "@/store";
+import { useEffect, useState } from "react";
+import { usePossibleQuantity } from "@/sdk/hooks/cart";
 
 const ProductCardAdd = (product: IProduct) => {
   const [loading, addToCart] = useAtom(addToCartAtom);
@@ -20,12 +20,12 @@ const ProductCardAdd = (product: IProduct) => {
   useEffect(() => {
     if (clicked) {
       if (!loading) {
-        toast.success('Product added to cart', {
+        toast.success("Product added to cart", {
           description: `${
             product.name
           } (${product?.unitPrice?.toLocaleString()})`,
           action: {
-            label: 'View',
+            label: "View",
             onClick: () => {
               openCart(true);
               toast.dismiss();

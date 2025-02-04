@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import {
   NavigationMenu,
@@ -7,17 +7,17 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
-  navigationMenuTriggerStyle
-} from '@/components/ui/navigation-menu';
-import { ChevronRight, ChevronRightIcon } from 'lucide-react';
-import { Button } from '../ui/button';
-import { ICategory } from '@/types/products.types';
-import Link from 'next/link';
-import { useState } from 'react';
+  navigationMenuTriggerStyle,
+} from "@/components/ui/navigation-menu";
+import { ChevronRight, ChevronRightIcon } from "lucide-react";
+import { Button } from "../ui/button";
+import { ICategory } from "@/types/products.types";
+import Link from "next/link";
+import { useState } from "react";
 
 export function CategoryNav({
   categories,
-  primaryCategories
+  primaryCategories,
 }: {
   categories: ICategory[];
   primaryCategories: ICategory[];
@@ -25,17 +25,20 @@ export function CategoryNav({
   const [activeCat, setActiveCat] = useState<string | undefined>();
 
   const getChildren = (parentId: string) =>
-    categories.filter(c => c.parentId === parentId);
+    categories.filter((c) => c.parentId === parentId);
 
   const onLinkClick = () => setActiveCat(undefined);
 
   return (
     <NavigationMenu
-      className="-mx-4 flex-auto max-w-full 2xl:max-w-screen-2xl justify-start [&>div]:max-w-full"
+      className="-mx-4 flex-auto max-w-full 2xl:max-w-screen-2xl justify-center [&>div]:max-w-full"
       value={activeCat}
       onValueChange={setActiveCat}
     >
       <NavigationMenuList className="max-w-full overflow-x-auto justify-start no-scrollbar">
+        <NavigationMenu className="flex gap-3  text-sm font-medium ">
+          <Link href={"/about"}>Бидний тухай</Link>
+        </NavigationMenu>
         {(primaryCategories || []).map(({ _id, name, order }) => {
           const childrenCats = getChildren(_id);
 
@@ -43,7 +46,7 @@ export function CategoryNav({
             return (
               <NavigationMenuItem key={_id}>
                 <Link
-                  href={{ pathname: '/category', query: { order: order } }}
+                  href={{ pathname: "/category", query: { order: order } }}
                   legacyBehavior
                   passHref
                 >
@@ -57,11 +60,11 @@ export function CategoryNav({
           return (
             <NavigationMenuItem key={_id} value={_id}>
               <NavigationMenuTrigger>
-                <Link href={{ pathname: '/category', query: { order: order } }}>
+                <Link href={{ pathname: "/category", query: { order: order } }}>
                   {name}
                 </Link>
               </NavigationMenuTrigger>
-              <NavigationMenuContent className="md:w-full">
+              <NavigationMenuContent className="lg:w-full">
                 <div className="p-4 text-sm pb-8">
                   <LinkItem
                     order={order}
@@ -71,10 +74,10 @@ export function CategoryNav({
                     {name} <ChevronRight className="h-4 w-4 ml-1" />
                   </LinkItem>
                   <ul className="grid grid-cols-3 xl:grid-cols-4 w-full gap-3">
-                    {childrenCats.map(cat => (
+                    {childrenCats.map((cat) => (
                       <li key={cat._id}>
                         <h4 className="font-medium py-1 px-4">{cat.name}</h4>
-                        {getChildren(cat._id).map(c => (
+                        {getChildren(cat._id).map((c) => (
                           <LinkItem
                             className="flex h-6 py-0 font-normal justify-start"
                             key={c._id}
@@ -89,7 +92,7 @@ export function CategoryNav({
                           order={cat.order}
                           onClick={onLinkClick}
                         >
-                          Бүх {cat.name}
+                          {cat.name}
                           <ChevronRightIcon className="h-4 w-4 ml-1 mt-px" />
                         </LinkItem>
                       </li>
@@ -100,6 +103,9 @@ export function CategoryNav({
             </NavigationMenuItem>
           );
         })}
+        <NavigationMenu className="flex gap-8  text-sm font-medium  ">
+          <Link href={"/news"}>Мэдээ мэдээлэл</Link>
+        </NavigationMenu>
       </NavigationMenuList>
     </NavigationMenu>
   );
@@ -109,7 +115,7 @@ const LinkItem = ({
   onClick,
   children,
   order,
-  className
+  className,
 }: React.PropsWithChildren & {
   onClick?: React.MouseEventHandler<HTMLAnchorElement>;
   order: string;
@@ -117,7 +123,7 @@ const LinkItem = ({
 }) => (
   <Button variant="link" asChild className={className}>
     <Link
-      href={{ pathname: '/category', query: { order: order } }}
+      href={{ pathname: "/category", query: { order: order } }}
       onClick={onClick}
     >
       {children}
