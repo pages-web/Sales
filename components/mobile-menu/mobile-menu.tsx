@@ -24,7 +24,7 @@ const App: React.FC = () => {
       <Drawer title="Categories" onClose={onClose} open={open}>
         <NavigationMenu className="flex gap-8  flex-col text-sm font-medium  ">
           <div className="flex flex-col gap-4 p-4">
-            <Link href={"/about"}>Бидний тухай</Link>
+            <Link href={"/about"}>Бидний тухай.</Link>
 
             <p>Сургалт</p>
 
