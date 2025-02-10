@@ -31,15 +31,15 @@ const DefaultLayout = ({ children }: React.PropsWithChildren) => {
           </Link> */}
         </Button>
         <Suspense fallback={<div className="hidden lg:block flex-1" />}>
-          <div className="flex  justify-start md:justify-center w-full">
+          <div className="flex  justify-center md:justify-center w-full">
             <Logo />
           </div>
         </Suspense>
-        <div className="flex lg:hidden  justify-end items-endflex-1">
+        {/* <div className="flex lg:hidden  justify-end items-endflex-1">
           <div className="md:hidden flex">
             <MobileMenu />
           </div>
-        </div>
+        </div> */}
         <nav className="hidden md:flex md:flex-row md:flex-nowrap gap-4 relative">
           {/* <SocialLinks /> */}
           <SearchPopupTrigger />

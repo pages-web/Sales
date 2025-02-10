@@ -40,14 +40,14 @@ export async function NavbarTop({
         {children}
       </div>
 
-      <div className="hidden lg:block bg-white sticky top-[60px]">
+      {/* <div className="hidden lg:block bg-white sticky top-[60px]">
         <Separator className="bg-background/10" />
         <div className="container flex justify-center w-[100vw]  items-center">
           <Suspense>
             <CategoryNavContainer />
           </Suspense>
         </div>
-      </div>
+      </div> */}
     </header>
   );
 }

@@ -9,9 +9,8 @@ import { icons } from "./icons";
 const Footer = async () => {
   const { branchDetail, name } = await getBranchDetail();
   const { email, phoneNumber, links, address, coordinate } = branchDetail || {};
-
   return (
-    <footer className="pt-12">
+    <footer className="pt-12 bg-gray-50">
       {!!branchDetail && (
         <div>
           <div className="container py-6 grid md:grid-cols-4">
@@ -69,20 +68,20 @@ const Footer = async () => {
           </div>
         </div>
       )}
-      <div className="bg-secondary text-primary py-4 text-sm pb-32 md:py-4">
+      <div className="bg-primary text-secondary py-4 text-sm pb-32 md:py-4">
         <div className="container flex items-center justify-between">
           <div>
             © {new Date().getFullYear()} <span>{name}</span>
           </div>
           <div className="inline-flex items-center group">
             <Button
-              className="px-1 text-primary hover:no-underline font-normal h-7"
+              className="px-1 text-secondary hover:no-underline font-normal h-7"
               variant="link"
               asChild
             >
               <Link href="https://erxes.mn/">
                 Powered by
-                <ErxesLogo className="ml-1 h-7 w-14 fill-primary" />
+                <ErxesLogo className="ml-1 h-7 w-14 fill-secondary" />
               </Link>
             </Button>
           </div>
