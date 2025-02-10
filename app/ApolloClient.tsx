@@ -18,12 +18,12 @@ const httpLink: any = new HttpLink({
 });
 
 const authLink = setContext((_, { headers }) => {
+  const cookie = `pos-config-token=${process.env.NEXT_PUBLIC_POS_TOKEN}`;
   const token = sessionStorage.getItem("token") || "";
   return {
     headers: {
       ...headers,
-      hostname: process.env.NEXT_PUBLIC_MAIN_API_DOMAIN,
-      "erxes-pos-token": process.env.NEXT_PUBLIC_POS_TOKEN,
+      cookie,
       "Access-Control-Allow-Origin": `${process.env.NEXT_PUBLIC_MAIN_API_DOMAIN}/graphql`,
       authorization: token ? `Bearer ${token}` : "",
     },
