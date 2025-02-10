@@ -1,25 +1,30 @@
-import { getProducts } from '@/sdk/queries/products';
-import ProductCard from '../product-card/product-card';
+import { getProducts } from "@/sdk/queries/products";
+import ProductCard from "../product-card/product-card";
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
   CarouselPrevious,
-  CarouselNext
-} from '../ui/carousel';
-import { IProduct } from '@/types/product.types';
+  CarouselNext,
+} from "../ui/carousel";
+import { IProduct } from "@/types/product.types";
 
 const RecommendedProducts = async ({
   categoryId,
-  productId
+  productId,
 }: {
   categoryId?: string;
   productId?: string;
 }) => {
   const { products } = await getProducts({
-    variables: { categoryId, perPage: 12, isKiosk: true }
+    variables: {
+      categoryId,
+      perPage: 12,
+      isKiosk: true,
+      groupedSimilarity: "config",
+    },
   });
-  const exceptCurrent = products.filter(product => product._id !== productId);
+  const exceptCurrent = products.filter((product) => product._id !== productId);
 
   if (!exceptCurrent.length) return null;
 
