@@ -5,6 +5,7 @@ import { Heading } from "@/components/heading/heading";
 import MainBanner from "@/components/main-banner/main-banner";
 import RecommendedProducts from "@/components/recommended-products/recommended-products";
 import ScreenBanner from "@/components/screen-banner/screen-banner";
+import SpecialRecommendedProducts from "@/components/special-products/recommended-products";
 import { Button } from "@/components/ui/button";
 import { getConfig } from "@/sdk/queries/auth";
 import { ChevronRight } from "lucide-react";
@@ -28,13 +29,18 @@ export async function generateMetadata(): Promise<Metadata> {
 export default function Home() {
   return (
     <div className="min-h-screen">
+      <MainBanner />
       <ScreenBanner />
       <CategoryCard />
       <Suspense>
         <GridBanner />
       </Suspense>
+      <div className="container mb-6 md:mb-16">
+        <Suspense>
+          <SpecialRecommendedProducts />
+        </Suspense>
+      </div>
       <Display />
-      <MainBanner />
       <div className="container flex items-center justify-between">
         <Heading title="Сүүлд нэмэгдсэн" className=" text-left md:mb-5" />
         <Button asChild variant="link" className="mb-3 md:mb-5">

@@ -23,6 +23,7 @@ const productCategories = gql`
 const products = gql`
   query poscProducts(
     $searchValue: String,
+    $tag: String
     $type: String, 
     $categoryId: String, 
     $page: Int, 
@@ -31,9 +32,11 @@ const products = gql`
     $groupedSimilarity: String
     $sortField: String
     $sortDirection: Int
+    
     ) {
     poscProducts(
       searchValue: $searchValue, 
+      tag: $tag
       categoryId: $categoryId, 
       type: $type, 
       page: $page, 
@@ -52,6 +55,7 @@ const products = gql`
       type
       description
       remainder
+      tagIds
       hasSimilarity
       attachment {
         url

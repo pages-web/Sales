@@ -22,6 +22,7 @@ export interface IProduct extends IProductBase {
   description?: string | null;
   attachment?: { url?: string } | null;
   remainder?: number;
+  tagIds?: string[];
   code?: string;
   manufacturedDate?: string;
   hasSimilarity?: boolean;
