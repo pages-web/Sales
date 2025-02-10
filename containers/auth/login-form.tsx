@@ -1,48 +1,48 @@
-'use client';
+"use client";
 
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
-import { z } from 'zod';
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
   FormField,
   FormItem,
   FormLabel,
-  FormMessage
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { Password } from '@/components/ui/password';
-import Link from 'next/link';
-import { useLogin } from '@/sdk/hooks/auth';
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Password } from "@/components/ui/password";
+import Link from "next/link";
+import { useLogin } from "@/sdk/hooks/auth";
 
 const formSchema = z.object({
   login: z
     .string()
-    .min(1, { message: 'Нэвтрэх нэрээ оруулна уу' })
+    .min(1, { message: "Нэвтрэх нэрээ оруулна уу" })
     .regex(
       /^[^\s@]+@[^\s@]+\.[^\s@]+|[0-9]{6,}$/,
-      'Буруу утас эсвэл цахим хаяг'
+      "Буруу утас эсвэл цахим хаяг"
     ),
-  password: z.string().min(1, { message: 'Нууц үгээ оруулна уу' })
+  password: z.string().min(1, { message: "Нууц үгээ оруулна уу" }),
 });
 
 const LoginForm = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      login: '',
-      password: ''
-    }
+      login: "",
+      password: "",
+    },
   });
 
   const { login, loading, clientPortalId } = useLogin();
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     login({
-      variables: { ...values, clientPortalId }
+      variables: { ...values, clientPortalId },
     });
   }
 

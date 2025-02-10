@@ -1,13 +1,13 @@
-import { useQuery } from '@apollo/client';
-import { queries } from '@/sdk/graphql/auth';
-import { useSetAtom, useAtom, useAtomValue } from 'jotai';
+import { useQuery } from "@apollo/client";
+import { queries } from "@/sdk/graphql/auth";
+import { useSetAtom, useAtom, useAtomValue } from "jotai";
 import {
   currentUserAtom,
   loadingUserAtom,
   refetchCurrentUserAtom,
-} from '@/store/auth.store';
-import { useEffect } from 'react';
-import { toast } from 'sonner';
+} from "@/store/auth.store";
+import { useEffect } from "react";
+import { toast } from "sonner";
 
 export const useCurrentUser = (onCompleted?: (data: any) => void) => {
   const [currentUser, setCurrentUser] = useAtom(currentUserAtom);
@@ -17,10 +17,10 @@ export const useCurrentUser = (onCompleted?: (data: any) => void) => {
   const { data, refetch } = useQuery(queries.currentUser, {
     onError(error) {
       setLoading(false);
-      if (error.message === 'token expired') {
-        return sessionStorage.removeItem('token');
+      if (error.message === "token expired") {
+        return sessionStorage.removeItem("token");
       }
-      if (error.message === 'User is not logged in') {
+      if (error.message === "User is not logged in") {
         onCompleted && onCompleted(null);
         return setCurrentUser(null);
       }
