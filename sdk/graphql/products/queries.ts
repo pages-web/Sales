@@ -32,7 +32,6 @@ const products = gql`
     $groupedSimilarity: String
     $sortField: String
     $sortDirection: Int
-    
     ) {
     poscProducts(
       searchValue: $searchValue, 

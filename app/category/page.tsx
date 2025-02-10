@@ -1,27 +1,27 @@
-import CategoryPageContent from '@/components/category/category-page-content';
-import CategoryTree from '@/components/category/category-tree';
-import { BreadcrumbsLayout } from '../breadcrumbs-layout';
+import CategoryPageContent from "@/components/category/category-page-content";
+import CategoryTree from "@/components/category/category-tree";
+import { BreadcrumbsLayout } from "../breadcrumbs-layout";
 import {
   getProducts,
   getBreadcrumbs,
-  getCategories
-} from '@/sdk/queries/products';
-import { ICategory } from '@/types/products.types';
-import { PER_PAGE } from '@/lib/constants';
-import { IPageProps } from '@/types';
-import { LinkProps } from 'next/link';
-import { Breadcrumb } from '@/components/breadcrumb/breadcrumb';
-import { Metadata } from 'next/types';
-import { getConfig } from '@/sdk/queries/auth';
+  getCategories,
+} from "@/sdk/queries/products";
+import { ICategory } from "@/types/products.types";
+import { PER_PAGE } from "@/lib/constants";
+import { IPageProps } from "@/types";
+import { LinkProps } from "next/link";
+import { Breadcrumb } from "@/components/breadcrumb/breadcrumb";
+import { Metadata } from "next/types";
+import { getConfig } from "@/sdk/queries/auth";
 
 export async function generateMetadata(): Promise<Metadata> {
   const { config } = await getConfig();
 
   return {
-    title: config.name + ' - Бүтээгдэхүүнүүд',
+    title: config.name + " - Бүтээгдэхүүнүүд",
     openGraph: {
-      title: config.name + ' - Бүтээгдэхүүнүүд'
-    }
+      title: config.name + " - Бүтээгдэхүүнүүд",
+    },
   };
 }
 
@@ -31,7 +31,9 @@ const Category = async ({ searchParams }: IPageProps) => {
   const { order, page, q, sort } = searchParams;
   const { categories, getParent, primaryCategories } = await getCategories();
 
-  const activeCategory = categories.find(category => category.order === order);
+  const activeCategory = categories.find(
+    (category) => category.order === order
+  );
 
   const { products, count } = await getProducts({
     variables: {
@@ -40,19 +42,20 @@ const Category = async ({ searchParams }: IPageProps) => {
       perPage: PER_PAGE,
       searchValue: q,
       isKiosk: true,
-      ...getSort(sort)
-    }
+      groupedSimilarity: "config",
+      ...getSort(sort),
+    },
   });
 
   const parentCategory = activeCategory && getParent(activeCategory.parentId);
 
   const childrenCategories =
     activeCategory &&
-    categories.filter(category => category.parentId === activeCategory._id);
+    categories.filter((category) => category.parentId === activeCategory._id);
 
   const breadcrumbs = [
-    { name: 'Эхлэл', link: '/' },
-    { name: 'Дэлгүүр', link: '/category' as LinkProps['href'] }
+    { name: "Эхлэл--", link: "/" },
+    { name: "Дэлгүүр", link: "/category" as LinkProps["href"] },
   ];
 
   const dynamicBreadcrumbs =
@@ -65,7 +68,7 @@ const Category = async ({ searchParams }: IPageProps) => {
       )}
     >
       <CategoryPageContent
-        title={activeCategory?.name || 'Дэлгүүр'}
+        title={activeCategory?.name || "Дэлгүүр"}
         products={products}
         totalProducts={count}
         searchParams={searchParams}
@@ -76,7 +79,7 @@ const Category = async ({ searchParams }: IPageProps) => {
                 activeCategory
                   ? [
                       { ...(parentCategory as ICategory), parent: true },
-                      ...(childrenCategories || [])
+                      ...(childrenCategories || []),
                     ]
                   : primaryCategories
               }
@@ -89,19 +92,19 @@ const Category = async ({ searchParams }: IPageProps) => {
 };
 
 const getSort = (sortValue?: string | string[]) => {
-  const sort = (sortValue || '').toString();
+  const sort = (sortValue || "").toString();
 
   switch (sort) {
-    case 'newToOld':
-      return { sortField: 'createdAt', sortDirection: -1 };
-    case 'oldToNew':
-      return { sortField: 'createdAt', sortDirection: 1 };
-    case 'priceUp':
-      return { sortField: 'unitPrice', sortDirection: 1 };
-    case 'priceDown':
-      return { sortField: 'unitPrice', sortDirection: -1 };
+    case "newToOld":
+      return { sortField: "createdAt", sortDirection: -1 };
+    case "oldToNew":
+      return { sortField: "createdAt", sortDirection: 1 };
+    case "priceUp":
+      return { sortField: "unitPrice", sortDirection: 1 };
+    case "priceDown":
+      return { sortField: "unitPrice", sortDirection: -1 };
     default:
-      return { sortField: 'createdAt', sortDirection: -1 };
+      return { sortField: "createdAt", sortDirection: -1 };
   }
 };
 
