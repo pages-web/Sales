@@ -2,7 +2,7 @@ import { cn } from "@/lib/utils";
 import Link from "next/link";
 import Image from "../ui/image";
 import { IProduct } from "../../types/product.types";
-import ProductCardAdd from "./product-card-add.client";
+import ProductCardAdd from "../product-card/product-card-add.client";
 import Price from "../price/price";
 
 const ProductCard = ({

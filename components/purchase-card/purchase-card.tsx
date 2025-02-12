@@ -1,13 +1,12 @@
-import { IProductDetail } from '@/types/products.types';
-import { Card, CardContent, CardHeader } from '../ui/card';
-import Price from '../price/price';
-import { Separator } from '../ui/separator';
-import AddToCart from './AddToCart.client';
-import { cn } from '@/lib/utils';
-import Remainder from './remainder.client';
-import ProductReview from './productReview';
-import { Suspense } from 'react';
-
+import { IProductDetail } from "@/types/products.types";
+import { Card, CardContent, CardHeader } from "../ui/card";
+import Price from "../price/price";
+import { Separator } from "../ui/separator";
+import AddToCart from "./AddToCart.client";
+import { cn } from "@/lib/utils";
+import Remainder from "./remainder.client";
+import ProductReview from "./productReview";
+import { Suspense } from "react";
 
 const PurchaseCard = ({
   name,
@@ -28,8 +27,8 @@ const PurchaseCard = ({
         </div> */}
         <h1
           className={cn(
-            'font-bold capitalize line-clamp-2',
-            name.length > 20 ? 'text-xl' : 'text-2xl'
+            "font-bold capitalize line-clamp-2",
+            name.length > 20 ? "text-xl" : "text-2xl"
           )}
         >
           {name}

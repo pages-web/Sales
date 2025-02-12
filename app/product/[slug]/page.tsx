@@ -9,14 +9,12 @@ import {
   getBreadcrumbs,
   getCategories,
   getProductDetail,
-  getProductSimilarities,
 } from "@/sdk/queries/products";
 import { IPageProps } from "@/types";
 import { IAttachment } from "@/types";
 import { Metadata } from "next/types";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
-import { getActiveProduct } from "@/lib/product";
 
 export const revalidate = 300;
 
@@ -59,15 +57,13 @@ export async function generateMetadata({
   };
 }
 
-const Product = async ({ params, searchParams }: IPageProps) => {
-  const { products } = await getProductSimilarities({
-    variables: { id: params.slug, groupedSimilarity: "config" },
+const Product = async ({ params }: IPageProps) => {
+  const { product } = await getProductDetail({
+    variables: { _id: params.slug },
   });
 
-  if (!products.length) return notFound();
-  const { product } = getActiveProduct({ products, searchParams }) || {};
+  if (!product) return notFound();
 
-  const productIds = products.map((prod) => prod._id);
   const {
     attachment,
     attachmentMore,
@@ -77,7 +73,7 @@ const Product = async ({ params, searchParams }: IPageProps) => {
     name,
     remainder,
     unitPrice,
-  } = product;
+  } = product || {};
 
   const productJsonLd = {
     "@context": "https://schema.org",
@@ -141,15 +137,11 @@ const Product = async ({ params, searchParams }: IPageProps) => {
           </section>
           <section className="md:mt-8" style={{ gridArea: `left-bottom` }}>
             <Separator />
-            <ProductAccordion
-              activeId={_id}
-              description={description || "empty"}
-              ids={productIds}
-            />
+            <ProductAccordion description={description || "empty"} _id={_id} />
           </section>
         </div>
         <div className="mt-28 mb-20">
-          <div className="my-4 font-semibold text-2xl">Танд санал болгох</div>
+          <div className="my-4 text-lg">Танд санал болгох</div>
           <Suspense>
             <RecommendedProducts categoryId={category?._id} productId={_id} />
           </Suspense>
