@@ -1,15 +1,15 @@
-'use client';
+"use client";
 
-import { ShoppingCartIcon } from 'lucide-react';
-import { Counter, CounterButton, CounterInput } from '../counter/counter';
-import { Button } from '../ui/button';
-import { useState } from 'react';
-import { useAtom, useSetAtom } from 'jotai';
-import { addToCartAtom } from '@/store/cart.store';
-import { IProduct } from '@/types/product.types';
-import { cartSheetAtom } from '@/store';
-import { LoadingIcon } from '../ui/loading';
-import { usePossibleQuantity } from '@/sdk/hooks/cart';
+import { ShoppingCartIcon } from "lucide-react";
+import { Counter, CounterButton, CounterInput } from "../counter/counter";
+import { Button } from "../ui/button";
+import { useState } from "react";
+import { useAtom, useSetAtom } from "jotai";
+import { addToCartAtom } from "@/store/cart.store";
+import { IProduct } from "@/types/product.types";
+import { cartSheetAtom } from "@/store";
+import { LoadingIcon } from "../ui/loading";
+import { usePossibleQuantity } from "@/sdk/hooks/cart";
 
 const AddToCart = (product: IProduct) => {
   const [count, setCount] = useState(1);
@@ -23,15 +23,15 @@ const AddToCart = (product: IProduct) => {
       <Counter size="lg" disabled={disableActions}>
         <CounterButton
           minus
-          onClick={() => setCount(prev => (prev > 1 ? prev - 1 : 1))}
+          onClick={() => setCount((prev) => (prev > 1 ? prev - 1 : 1))}
         />
         <CounterInput
           value={count}
-          onChange={e => setCount(Number(e.target.value))}
+          onChange={(e) => setCount(Number(e.target.value))}
         />
         <CounterButton
           onClick={() =>
-            setCount(prev =>
+            setCount((prev) =>
               !checkRemainder
                 ? prev + 1
                 : possibleQuantity > prev + 1

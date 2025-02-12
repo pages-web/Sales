@@ -1,15 +1,15 @@
-'use client';
+"use client";
 
-import { useMediaQuery } from '@/hooks/use-media-query';
-import dynamic from 'next/dynamic';
-import { Suspense } from 'react';
+import { useMediaQuery } from "@/hooks/use-media-query";
+import dynamic from "next/dynamic";
+import { Suspense } from "react";
 
-const Mobile = dynamic(() => import('./category-sidebar-mobile'), {
-  loading: () => <div className="md:w-[303px]"></div>
+const Mobile = dynamic(() => import("./category-sidebar-mobile"), {
+  loading: () => <div className="md:w-[303px]"></div>,
 });
 
 const CategorySidebar = ({ children }: React.PropsWithChildren) => {
-  const isDesktop = useMediaQuery('(min-width: 768px)');
+  const isDesktop = useMediaQuery("(min-width: 768px)");
 
   if (isDesktop)
     return (

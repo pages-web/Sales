@@ -1,16 +1,17 @@
-import { getClient } from "@/sdk/ssClient";
-import { queries } from "../graphql/products";
-import { IProduct } from "@/types/product.types";
+import { getClient } from '@/sdk/ssClient';
+import { queries } from '../graphql/products';
+import { IProduct } from '@/types/product.types';
 import {
   GetCategories,
   IProductDetail,
   IGetParent,
   ICategory,
-} from "@/types/products.types";
-import type { LinkProps } from "next/link";
-import { Breadcrumb } from "@/components/breadcrumb/breadcrumb";
-import { cache } from "react";
-import { CommonParams } from "@/types";
+  ProductFields,
+} from '@/types/products.types';
+import type { LinkProps } from 'next/link';
+import { Breadcrumb } from '@/components/breadcrumb/breadcrumb';
+import { cache } from 'react';
+import { CommonParams } from '@/types';
 
 export const getCategories: GetCategories = cache(async (params) => {
   const { data, error } = await getClient().query({
@@ -21,10 +22,21 @@ export const getCategories: GetCategories = cache(async (params) => {
 
   const getParent: IGetParent = (parentId: string) =>
     categories.find((c: ICategory) => c._id === parentId);
-
+  
+  const getChildren = (categoryId: string) =>
+    categories.filter(
+      (category: ICategory) => category.parentId === categoryId
+    );
   const primaryCategories = (categories || []).filter(
     (category: ICategory) => !getParent(category.parentId)
   );
+
+  const getSiblings = (parentId: string) => {
+    const parent = getParent(parentId);
+    if (!parent) return primaryCategories;
+    return [{ ...parent, parent: true }, ...getChildren(parentId)];
+  };
+
   return {
     categories:
       primaryCategories.length === 1
@@ -40,6 +52,8 @@ export const getCategories: GetCategories = cache(async (params) => {
           )
         : primaryCategories,
     getParent,
+    getSiblings,
+    getChildren,
   };
 });
 
@@ -48,6 +62,19 @@ type GetProducts = (params?: CommonParams) => Promise<{
   count: number;
   error_msg: string | undefined;
 }>;
+
+export const getSpecialProductIds = cache(async () => {
+  const { data } = await getClient().query({
+    query: queries.productsByTag,
+    variables: {
+      tag: process.env.NEXT_PUBLIC_TAG_ID,
+      perPage: 1000,
+    },
+  });
+  return {
+    ids: (data?.poscProducts || []).map((pr: { _id: string }) => pr?._id),
+  };
+});
 
 type GetProductsMeta = (params?: CommonParams) => Promise<{
   products: { _id: string; modifiedAt: string }[];
@@ -72,6 +99,7 @@ export const getProducts: GetProducts = cache(async (params) => {
     error_msg: error?.message,
   };
 });
+
 
 export const getProductsMeta: GetProductsMeta = async (params) => {
   const { data, error } = await getClient().query({
@@ -98,20 +126,99 @@ export const getProductDetail: GetProductDetail = cache(async (params) => {
   return { product, error_msg: error?.message };
 });
 
+type GetProductSimilarities = (params?: CommonParams) => Promise<{
+  products: IProductDetail[];
+  error_msg: string | undefined;
+  groups: { fieldId: string; title: string }[];
+  fields: ProductFields;
+}>;
+
+export const getProductSimilarities: GetProductSimilarities = cache(
+  async (params) => {
+    const { data, error } = await getClient().query({
+      query: queries.productSimilarities,
+      variables: params?.variables,
+    });
+    const { products, groups } = data?.poscProductSimilarities || {};
+
+    const customFields: any = [...products]
+      .sort((a: IProduct, b: IProduct) => a.unitPrice - b.unitPrice)
+      .map((product: IProduct) => product.customFieldsData);
+
+    const getFieldValues = (fieldId: string) => {
+      const array: string[] = customFields.map(
+        (data: CustomField[]) =>
+          data.find((field) => field.field === fieldId)?.value
+      );
+      const uniqueArray: string[] = [];
+
+      for (const element of array) {
+        if (!uniqueArray.includes(element)) {
+          uniqueArray.push(element);
+        }
+      }
+      return uniqueArray;
+    };
+
+    let fields = {};
+
+    if (groups?.length) {
+      groups.map(
+        (group: Group) =>
+          (fields = {
+            ...fields,
+            [group.fieldId]: {
+              ...group,
+              variants: getFieldValues(group.fieldId),
+            },
+          })
+      );
+    }
+
+    const flattenProducts = (products || []).map(
+      ({ customFieldsData, ...product }: IProduct) => {
+        let flattenProduct: any = { ...product };
+        (customFieldsData || []).forEach((field) => {
+          flattenProduct[field.field] = field.value;
+        });
+        return flattenProduct;
+      }
+    );
+
+    return {
+      fields,
+      products: flattenProducts,
+      groups,
+      error_msg: error?.message,
+    };
+  }
+);
+
+export interface Group {
+  fieldId: string;
+  title: string;
+}
+
+export interface CustomField {
+  field: string;
+  value: string;
+  stringValue: string;
+}
+
 type GetBreadcrumbs = (order: string, categories: ICategory[]) => Breadcrumb[];
 
 export const getBreadcrumbs: GetBreadcrumbs = cache((order, categories) => {
   return order
-    .split("/")
+    .split('/')
     .map((code) => {
       const cat = categories.find((c) => c.code === code);
       if (!cat) return null;
       return {
         name: cat?.name,
         link: {
-          pathname: "/category",
+          pathname: '/category',
           query: { order: cat?.order },
-        } as LinkProps["href"],
+        } as LinkProps['href'],
       };
     })
     .filter((cat) => cat !== null) as Breadcrumb[];

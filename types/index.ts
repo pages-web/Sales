@@ -5,6 +5,10 @@ export interface IPageProps {
   searchParams: { [key: string]: string | string[] | undefined };
 }
 
+export interface ISearchParamsObj {
+  [key: string]: string | string[] | undefined;
+}
+
 export interface CommonParams {
   variables?: QueryOptions['variables'];
 }

@@ -1,12 +1,12 @@
-'use client';
+"use client";
 
-import { useSearchParams } from 'next/navigation';
-import { Button } from '../ui/button';
-import { XIcon } from 'lucide-react';
-import Link from 'next/link';
+import { useSearchParams } from "next/navigation";
+import { Button } from "../ui/button";
+import { XIcon } from "lucide-react";
+import Link from "next/link";
 
 const SearchBadge = () => {
-  const q = useSearchParams().get('q');
+  const q = useSearchParams().get("q");
 
   if (!q) return null;
 

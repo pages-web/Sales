@@ -42,7 +42,6 @@ const Category = async ({ searchParams }: IPageProps) => {
       perPage: PER_PAGE,
       searchValue: q,
       isKiosk: true,
-      groupedSimilarity: "config",
       ...getSort(sort),
     },
   });
@@ -54,7 +53,7 @@ const Category = async ({ searchParams }: IPageProps) => {
     categories.filter((category) => category.parentId === activeCategory._id);
 
   const breadcrumbs = [
-    { name: "Эхлэл--", link: "/" },
+    { name: "Эхлэл", link: "/" },
     { name: "Дэлгүүр", link: "/category" as LinkProps["href"] },
   ];
 

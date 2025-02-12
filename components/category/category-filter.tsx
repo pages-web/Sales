@@ -1,16 +1,16 @@
-'use client';
-import { useRouter, useSearchParams } from 'next/navigation';
+"use client";
+import { useRouter, useSearchParams } from "next/navigation";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
-  SelectValue
-} from '../ui/select';
+  SelectValue,
+} from "../ui/select";
 
 const CategoryFilter = () => {
-  const sort = useSearchParams().get('sort');
-  const order = useSearchParams().get('order');
+  const sort = useSearchParams().get("sort");
+  const order = useSearchParams().get("order");
   const router = useRouter();
 
   return (
@@ -19,9 +19,9 @@ const CategoryFilter = () => {
         Эрэмблэх
       </span>
       <Select
-        defaultValue={'newToOld'}
-        value={sort || 'newToOld'}
-        onValueChange={val =>
+        defaultValue={"newToOld"}
+        value={sort || "newToOld"}
+        onValueChange={(val) =>
           router.push(`/category?sort=${val}&order=${order}`)
         }
       >

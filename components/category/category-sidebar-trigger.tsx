@@ -1,15 +1,15 @@
-'use client';
+"use client";
 
-import { SlidersHorizontalIcon } from 'lucide-react';
-import { Button } from '../ui/button';
-import { useSetAtom } from 'jotai';
-import { categorySheetAtom } from '@/store';
+import { SlidersHorizontalIcon } from "lucide-react";
+import { Button } from "../ui/button";
+import { useSetAtom } from "jotai";
+import { categorySheetAtom } from "@/store";
 
 const CategorySidebarTrigger = () => {
   const setOpen = useSetAtom(categorySheetAtom);
   return (
     <Button
-      variant={'ghost'}
+      variant={"ghost"}
       className="font-semibold md:hidden"
       onClick={() => setOpen(true)}
     >

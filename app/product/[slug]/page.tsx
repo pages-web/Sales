@@ -1,30 +1,32 @@
-import { BreadcrumbsLayout } from '@/app/breadcrumbs-layout';
-import { type Breadcrumb } from '@/components/breadcrumb/breadcrumb';
-import Gallery from '@/components/gallery/gallery';
-import ProductAccordion from '@/components/product-accordion/product-accordion';
-import PurchaseCard from '@/components/purchase-card/purchase-card';
-import RecommendedProducts from '@/components/recommended-products/recommended-products';
-import { Separator } from '@/components/ui/separator';
+import { BreadcrumbsLayout } from "@/app/breadcrumbs-layout";
+import { type Breadcrumb } from "@/components/breadcrumb/breadcrumb";
+import Gallery from "@/components/gallery/gallery";
+import ProductAccordion from "@/components/product-accordion/product-accordion";
+import PurchaseCard from "@/components/purchase-card/purchase-card";
+import RecommendedProducts from "@/components/recommended-products/recommended-products";
+import { Separator } from "@/components/ui/separator";
 import {
   getBreadcrumbs,
   getCategories,
-  getProductDetail
-} from '@/sdk/queries/products';
-import { IPageProps } from '@/types';
-import { IAttachment } from '@/types';
-import { Metadata } from 'next/types';
-import { notFound } from 'next/navigation';
-import { Suspense } from 'react';
+  getProductDetail,
+  getProductSimilarities,
+} from "@/sdk/queries/products";
+import { IPageProps } from "@/types";
+import { IAttachment } from "@/types";
+import { Metadata } from "next/types";
+import { notFound } from "next/navigation";
+import { Suspense } from "react";
+import { getActiveProduct } from "@/lib/product";
 
 export const revalidate = 300;
 
 export async function generateMetadata({
-  params
+  params,
 }: {
   params: { slug: string };
 }): Promise<Metadata> {
   const { product } = await getProductDetail({
-    variables: { _id: params.slug }
+    variables: { _id: params.slug },
   });
 
   if (!product) return notFound();
@@ -33,14 +35,14 @@ export async function generateMetadata({
 
   return {
     title: name,
-    description: description || '',
+    description: description || "",
     robots: {
       index: true,
       follow: true,
       googleBot: {
         index: true,
-        follow: true
-      }
+        follow: true,
+      },
     },
     openGraph: attachment?.url
       ? {
@@ -49,21 +51,23 @@ export async function generateMetadata({
               url: attachment?.url,
               width: 400,
               height: 400,
-              alt: name
-            }
-          ]
+              alt: name,
+            },
+          ],
         }
-      : null
+      : null,
   };
 }
 
-const Product = async ({ params }: IPageProps) => {
-  const { product } = await getProductDetail({
-    variables: { _id: params.slug }
+const Product = async ({ params, searchParams }: IPageProps) => {
+  const { products } = await getProductSimilarities({
+    variables: { id: params.slug, groupedSimilarity: "config" },
   });
 
-  if (!product) return notFound();
+  if (!products.length) return notFound();
+  const { product } = getActiveProduct({ products, searchParams }) || {};
 
+  const productIds = products.map((prod) => prod._id);
   const {
     attachment,
     attachmentMore,
@@ -72,41 +76,41 @@ const Product = async ({ params }: IPageProps) => {
     category,
     name,
     remainder,
-    unitPrice
-  } = product || {};
+    unitPrice,
+  } = product;
 
   const productJsonLd = {
-    '@context': 'https://schema.org',
-    '@type': 'Product',
+    "@context": "https://schema.org",
+    "@type": "Product",
     name,
     description,
     image: attachment?.url,
     offers: {
-      '@type': 'AggregateOffer',
+      "@type": "AggregateOffer",
       availability: remainder
-        ? 'https://schema.org/InStock'
-        : 'https://schema.org/OutOfStock',
-      priceCurrency: 'MNT',
+        ? "https://schema.org/InStock"
+        : "https://schema.org/OutOfStock",
+      priceCurrency: "MNT",
       highPrice: unitPrice,
-      lowPrice: unitPrice
-    }
+      lowPrice: unitPrice,
+    },
   };
 
   const { categories } = await getCategories();
 
   const breadcrumbs: Breadcrumb[] = [
-    { name: 'Эхлэл', link: '/' },
-    { name: 'Дэлгүүр', link: '/category' }
+    { name: "Эхлэл", link: "/" },
+    { name: "Дэлгүүр", link: "/category" },
   ];
 
-  const dynamicBreadcrumbs = getBreadcrumbs(category?.order || '', categories);
+  const dynamicBreadcrumbs = getBreadcrumbs(category?.order || "", categories);
 
   return (
     <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify(productJsonLd)
+          __html: JSON.stringify(productJsonLd),
         }}
       />
       <BreadcrumbsLayout
@@ -119,13 +123,13 @@ const Product = async ({ params }: IPageProps) => {
           style={{
             gridTemplateAreas: `"left-top right"
           "left-bottom right"`,
-            gridTemplateColumns: `minmax(50%, 500px) auto`
+            gridTemplateColumns: `minmax(50%, 500px) auto`,
           }}
         >
           <section className="md:h-full " style={{ gridArea: `left-top` }}>
             <Gallery
               attachments={(attachmentMore || []).concat([
-                attachment as IAttachment
+                attachment as IAttachment,
               ])}
             />
           </section>
@@ -137,11 +141,15 @@ const Product = async ({ params }: IPageProps) => {
           </section>
           <section className="md:mt-8" style={{ gridArea: `left-bottom` }}>
             <Separator />
-            <ProductAccordion description={description || 'empty'} _id={_id} />
+            <ProductAccordion
+              activeId={_id}
+              description={description || "empty"}
+              ids={productIds}
+            />
           </section>
         </div>
         <div className="mt-28 mb-20">
-          <div className="my-4 text-lg">Танд санал болгох</div>
+          <div className="my-4 font-semibold text-2xl">Танд санал болгох</div>
           <Suspense>
             <RecommendedProducts categoryId={category?._id} productId={_id} />
           </Suspense>

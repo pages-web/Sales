@@ -1,9 +1,9 @@
-import { ICategory } from '@/types/products.types';
-import { CategoryTreeItem } from './category-tree-item';
-import CategoryFilter from './category-filter';
+import { ICategory } from "@/types/products.types";
+import { CategoryTreeItem } from "./category-tree-item";
+import CategoryFilter from "./category-filter";
 
 const CategoryTree = ({
-  categories
+  categories,
 }: {
   categories: (ICategory & { parent?: true })[];
 }) => {
@@ -13,7 +13,7 @@ const CategoryTree = ({
         <span className="block py-2 px-4 mb-4 bg-neutral-100 typography-headline-6 font-bold text-neutral-900 uppercase tracking-widest md:rounded-md">
           Ангилал
         </span>
-        {categories.map(cat => (
+        {categories.map((cat) => (
           <CategoryTreeItem {...cat} key={cat._id} />
         ))}
       </div>

@@ -31,14 +31,11 @@ export function CategoryNav({
 
   return (
     <NavigationMenu
-      className="-mx-4 flex-auto max-w-full 2xl:max-w-screen-2xl justify-center [&>div]:max-w-full"
+      className="-mx-4 flex-auto max-w-full 2xl:max-w-screen-2xl justify-start [&>div]:max-w-full"
       value={activeCat}
       onValueChange={setActiveCat}
     >
       <NavigationMenuList className="max-w-full overflow-x-auto justify-start no-scrollbar">
-        <NavigationMenu className="flex gap-3  text-sm font-medium ">
-          <Link href={"/about"}>Бидний тухай</Link>
-        </NavigationMenu>
         {(primaryCategories || []).map(({ _id, name, order }) => {
           const childrenCats = getChildren(_id);
 
@@ -64,7 +61,7 @@ export function CategoryNav({
                   {name}
                 </Link>
               </NavigationMenuTrigger>
-              <NavigationMenuContent className="lg:w-full">
+              <NavigationMenuContent className="md:w-full">
                 <div className="p-4 text-sm pb-8">
                   <LinkItem
                     order={order}
@@ -92,7 +89,7 @@ export function CategoryNav({
                           order={cat.order}
                           onClick={onLinkClick}
                         >
-                          {cat.name}
+                          Бүх {cat.name}
                           <ChevronRightIcon className="h-4 w-4 ml-1 mt-px" />
                         </LinkItem>
                       </li>
@@ -103,9 +100,6 @@ export function CategoryNav({
             </NavigationMenuItem>
           );
         })}
-        <NavigationMenu className="flex gap-8  text-sm font-medium  ">
-          <Link href={"/news"}>Мэдээ мэдээлэл</Link>
-        </NavigationMenu>
       </NavigationMenuList>
     </NavigationMenu>
   );

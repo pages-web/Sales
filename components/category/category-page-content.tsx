@@ -1,19 +1,19 @@
-import { PropsWithChildren, ReactNode } from 'react';
-import { IProduct } from '@/types/product.types';
-import CategorySidebar from './category-sidebar';
-import CategorySidebarTrigger from './category-sidebar-trigger';
-import ProductCard from '../product-card/product-card';
-import ProductPagination from '../product-pagination/product-pagination';
-import { IPageProps } from '@/types';
-import ProductsContainer from '../product-card/products-container';
-import SearchBadge from './search-badge';
+import { PropsWithChildren, ReactNode } from "react";
+import { IProduct } from "@/types/product.types";
+import CategorySidebar from "./category-sidebar";
+import CategorySidebarTrigger from "./category-sidebar-trigger";
+import ProductCard from "../product-card/product-card";
+import ProductPagination from "../product-pagination/product-pagination";
+import { IPageProps } from "@/types";
+import ProductsContainer from "../product-card/products-container";
+import SearchBadge from "./search-badge";
 
 export interface CategoryPageContentProps extends PropsWithChildren {
   title: string;
   products: IProduct[];
   totalProducts: number;
   sidebar?: ReactNode;
-  searchParams: IPageProps['searchParams'];
+  searchParams: IPageProps["searchParams"];
 }
 
 const CategoryPageContent = ({

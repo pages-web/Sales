@@ -63,6 +63,14 @@ const products = gql`
   }
 `;
 
+const productsByTag = gql`
+  query productsByTag($tag: String) {
+    poscProducts(tag: $tag) {
+      _id
+    }
+  }
+`;
+
 const productsMeta = gql`
   query poscProducts($perPage: Int) {
     poscProducts(perPage: $perPage, isKiosk: true) {
@@ -223,5 +231,7 @@ const queries = {
   getLastProductView,
   getProductAverageReview,
   getProductReviews,
+
+  productsByTag,
 };
 export default queries;
