@@ -174,6 +174,44 @@ const productReview = gql`
   }
 `;
 
+const getLastProductView = gql`
+  query LastViewedItems($customerId: String!, $limit: Int) {
+    lastViewedItems(customerId: $customerId, limit: $limit) {
+      _id
+      productId
+      product {
+        _id
+        createdAt
+        attachment {
+          url
+        }
+        unitPrice
+        name
+      }
+    }
+  }
+`;
+
+const getProductReviews = gql`
+  query Productreviews($productIds: [String], $customerId: String) {
+    productreviews(productIds: $productIds, customerId: $customerId) {
+      _id
+      customerId
+      review
+    }
+  }
+`;
+
+const getProductAverageReview = gql`
+  query Productreview($productId: String!) {
+    productreview(productId: $productId) {
+      average
+      length
+      productId
+    }
+  }
+`;
+
 const queries = {
   productCategories,
   products,
@@ -182,5 +220,8 @@ const queries = {
   productDetail,
   productsMeta,
   productReview,
+  getLastProductView,
+  getProductAverageReview,
+  getProductReviews,
 };
 export default queries;

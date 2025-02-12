@@ -8,6 +8,7 @@ import Remainder from './remainder.client';
 import ProductReview from './productReview';
 import { Suspense } from 'react';
 
+
 const PurchaseCard = ({
   name,
   unitPrice,

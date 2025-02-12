@@ -42,10 +42,10 @@ const CarouselClient = ({
       className={settings.className[size]}
       opts={{ loop: true }}
       plugins={[
-        Autoplay({
-          delay: settings.delay[size],
-          stopOnMouseEnter: true,
-        }),
+        // Autoplay({
+        //   delay: settings.delay[size],
+        //   stopOnMouseEnter: true,
+        // }),
       ]}
       orientation={settings.orientation[size] as IOrientation}
     >
