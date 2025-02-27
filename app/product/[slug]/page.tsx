@@ -9,12 +9,14 @@ import {
   getBreadcrumbs,
   getCategories,
   getProductDetail,
+  getProductSimilarities,
 } from "@/sdk/queries/products";
 import { IPageProps } from "@/types";
 import { IAttachment } from "@/types";
 import { Metadata } from "next/types";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
+import { getActiveProduct } from "@/lib/product";
 
 export const revalidate = 300;
 
@@ -57,13 +59,15 @@ export async function generateMetadata({
   };
 }
 
-const Product = async ({ params }: IPageProps) => {
-  const { product } = await getProductDetail({
-    variables: { _id: params.slug },
+const Product = async ({ params, searchParams }: IPageProps) => {
+  const { products } = await getProductSimilarities({
+    variables: { id: params.slug, groupedSimilarity: "config" },
   });
 
-  if (!product) return notFound();
+  if (!products.length) return notFound();
+  const { product } = getActiveProduct({ products, searchParams }) || {};
 
+  const productIds = products.map((prod) => prod._id);
   const {
     attachment,
     attachmentMore,
@@ -73,7 +77,7 @@ const Product = async ({ params }: IPageProps) => {
     name,
     remainder,
     unitPrice,
-  } = product || {};
+  } = product;
 
   const productJsonLd = {
     "@context": "https://schema.org",
@@ -119,7 +123,7 @@ const Product = async ({ params }: IPageProps) => {
           style={{
             gridTemplateAreas: `"left-top right"
           "left-bottom right"`,
-            gridTemplateColumns: `minmax(50%, 500px) auto`,
+            gridTemplateColumns: `minmax(50%, 800px) auto`,
           }}
         >
           <section className="md:h-full " style={{ gridArea: `left-top` }}>
@@ -133,8 +137,10 @@ const Product = async ({ params }: IPageProps) => {
             className="mb-10 md:mb-0 py-5 "
             style={{ gridArea: `right` }}
           >
+        
             <PurchaseCard {...product} />
           </section>
+          {/* <section className="md:mt-8" style={{ gridArea: `left-bottom` }}> */}
           <section className="md:mt-8" style={{ gridArea: `left-bottom` }}>
             <Separator />
             <ProductAccordion description={description || "empty"} _id={_id} />

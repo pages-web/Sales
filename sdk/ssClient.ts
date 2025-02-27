@@ -8,11 +8,11 @@ export const { getClient } = registerApolloClient(() => {
   });
 
   const authLink = setContext((_, { headers }) => {
-    const cookie = `pos-config-token=${process.env.NEXT_PUBLIC_POS_TOKEN}`;
     return {
       headers: {
         ...headers,
-        cookie,
+        hostname: process.env.NEXT_PUBLIC_MAIN_API_DOMAIN,
+        'erxes-pos-token': process.env.NEXT_PUBLIC_POS_TOKEN,
       },
     };
   });

@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { checkRemainderAtom } from "@/store/auth.store";
-import { useAtomValue } from "jotai";
-import { Badge } from "@/components/ui/badge";
+import { checkRemainderAtom } from '@/store/auth.store';
+import { useAtomValue } from 'jotai';
+import { Badge } from '@/components/ui/badge';
 
 const Remainder = ({ remainder }: { remainder?: number | null }) => {
   const checkRemainder = useAtomValue(checkRemainderAtom);
@@ -16,7 +16,7 @@ const Remainder = ({ remainder }: { remainder?: number | null }) => {
           Таны сонгосон бараа агуулахад:
           <Badge className="mx-2" variant="secondary">
             {remainder || 0}ш
-          </Badge>{" "}
+          </Badge>{' '}
           байна.
         </>
       ) : (

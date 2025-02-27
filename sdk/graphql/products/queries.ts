@@ -220,6 +220,12 @@ const getProductAverageReview = gql`
   }
 `;
 
+const msdProductsRemainder = gql`
+  query msdProductsRemainder($posToken: String, $productCodes: [String]) {
+    msdProductsRemainder(posToken: $posToken, productCodes: $productCodes)
+  }
+`;
+
 const queries = {
   productCategories,
   products,
@@ -231,7 +237,7 @@ const queries = {
   getLastProductView,
   getProductAverageReview,
   getProductReviews,
-
+  msdProductsRemainder,
   productsByTag,
 };
 export default queries;
