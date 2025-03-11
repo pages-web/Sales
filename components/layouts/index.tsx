@@ -2,20 +2,14 @@ import { ChevronDownIcon } from "@radix-ui/react-icons";
 import { NavbarTop } from "./navbar-top";
 import { Button } from "../ui/button";
 import Logo from "./logo";
-import Logos from "./logo";
 import BottomNav from "../bottom-nav/bottom-nav";
 import ScrollToTop from "../scroll-to-top/scroll-to-top";
 import Footer from "../footer/footer";
 import SearchPopup, { SearchPopupTrigger } from "../search/search-popup";
-
-import Link from "next/link";
 import CartTrigger from "../cart/cart-trigger";
 import CurrentUser from "@/containers/auth/current-user";
 import { Suspense } from "react";
-// import Banner from "../modal-banner/Banner";
-// import SocialLinks from "../social-links/social-links";
-import MobileMenu from "../mobile-menu/mobile-menu";
-
+import Search from "../search/search";
 const DefaultLayout = ({ children }: React.PropsWithChildren) => {
   return (
     <>
@@ -32,7 +26,8 @@ const DefaultLayout = ({ children }: React.PropsWithChildren) => {
         </Button>
         <Suspense fallback={<div className="hidden lg:block flex-1" />}>
           <div className="flex  justify-center md:justify-center w-full">
-            <Logo />
+            
+          <Search className="hidden md:block flex-1 max-w-2xl" />
           </div>
         </Suspense>
         {/* <div className="flex lg:hidden  justify-end items-endflex-1">
