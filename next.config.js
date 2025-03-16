@@ -27,7 +27,7 @@ const nextConfig = {
   },
   env: {
     NEXT_PUBLIC_MAIN_API_DOMAIN: "https://sales.app.erxes.io/gateway",
-    NEXT_PUBLIC_WS_DOMAIN: "ws://localhost:4000/graphql/",
+    NEXT_PUBLIC_WS_DOMAIN: "ws://localhost:8080/graphql/",
 
     NEXT_PUBLIC_POS_TOKEN: "L1OQRxY65cWnx51WCdxum3s44egupVxE",
     NEXT_PUBLIC_CP_ID: "Qgt_KWLrYydJot4cfiDrf",

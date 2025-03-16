@@ -5,7 +5,7 @@ import Link from "next/link";
 import WrapperImage, { TextUp } from "./animate.client";
 
 const ScreenBanner = async () => {
-  const { articles } = await getKbArticlesByCode("screen-banner");
+  const { articles } = await getKbArticlesByCode("main-banner");
   if (!articles.length) return null;
 
   return (

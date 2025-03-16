@@ -35,7 +35,6 @@ export async function CategoryCard({ ...attributes }: CategoryCardProps) {
   const { config } = await getConfig();
 
   if (!(config.initialCategoryIds || []).length) return null;
-  console.log("config", config);
   return (
     <>
       <Heading title="Онцлох ангилалууд" className="md:mt-16 md:mb-8" />
