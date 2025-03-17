@@ -4,7 +4,6 @@ import GridBanner from "@/components/grid-banner/grid-banner";
 import { Heading } from "@/components/heading/heading";
 import MainBanner from "@/components/main-banner/main-banner";
 import RecommendedProducts from "@/components/recommended-products/recommended-products";
-import ScreenBanner from "@/components/screen-banner/screen-banner";
 import SpecialRecommendedProducts from "@/components/special-products/recommended-products";
 import { Button } from "@/components/ui/button";
 import { getConfig } from "@/sdk/queries/auth";
@@ -30,7 +29,6 @@ export default function Home() {
   return (
     <div className="min-h-screen">
       <MainBanner />
-      <ScreenBanner />
       <CategoryCard />
       <Suspense>
         <GridBanner />
