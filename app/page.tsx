@@ -30,9 +30,6 @@ export default function Home() {
     <div className="min-h-screen">
       <MainBanner />
       <CategoryCard />
-      <Suspense>
-        <GridBanner />
-      </Suspense>
       <div className="container mb-6 md:mb-16">
         <Suspense>
           <SpecialRecommendedProducts />
